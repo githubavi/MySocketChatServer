@@ -8,9 +8,12 @@ io.attach(appserver);
 
 var redis = require("redis");
 
+var pub = require('redis').createClient(6379, 'redcache.redis.cache.windows.net', { auth_pass: 'jfZlH72+LELoszFP2onGYoCpF+ahhC3ZX5hjK1Lvx+I=', return_buffers: true }); //unsecure,  working
+var sub = require('redis').createClient(6379, 'redcache.redis.cache.windows.net', { auth_pass: 'jfZlH72+LELoszFP2onGYoCpF+ahhC3ZX5hjK1Lvx+I=', return_buffers: true }); //unsecure,  working
 
-var pub = redis.createClient(6380, 'redcache.redis.cache.windows.net', { auth_pass: 'jfZlH72+LELoszFP2onGYoCpF+ahhC3ZX5hjK1Lvx+I=', return_buffers: true, tls: { servername: 'redcache.redis.cache.windows.net' } }); //secure, working
-var sub = redis.createClient(6380, 'redcache.redis.cache.windows.net', { auth_pass: 'jfZlH72+LELoszFP2onGYoCpF+ahhC3ZX5hjK1Lvx+I=', return_buffers: true, tls: { servername: 'redcache.redis.cache.windows.net' } }); //secure, working
+
+//var pub = redis.createClient(6380, 'redcache.redis.cache.windows.net', { auth_pass: 'jfZlH72+LELoszFP2onGYoCpF+ahhC3ZX5hjK1Lvx+I=', return_buffers: true, tls: { servername: 'redcache.redis.cache.windows.net' } }); //secure, working
+//var sub = redis.createClient(6380, 'redcache.redis.cache.windows.net', { auth_pass: 'jfZlH72+LELoszFP2onGYoCpF+ahhC3ZX5hjK1Lvx+I=', return_buffers: true, tls: { servername: 'redcache.redis.cache.windows.net' } }); //secure, working
 
 var redisadapter = require('socket.io-redis');
 io.adapter(redisadapter({ pubClient: pub, subClient: sub }));
@@ -41,7 +44,7 @@ io.on('connection', function (socket) {
         //    message: data
         //});
 
-        io.emit('messagecallback', {
+        io.emit('newmessage', {
             username: socket.username,
             message: data
         });
