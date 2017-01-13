@@ -44,7 +44,7 @@ io.on('connection', function (socket) {
         //    message: data
         //});
 
-        io.emit('newmessage', {
+        io.emit('messagecallback', {
             username: socket.username,
             message: data
         });
